@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>covidIndia</title>
+        <style type="text/css">
+          *
+{
+    outline: none;
+}
+
+html, body
+{
+    height: 100%;
+    min-height: 100%;
+}
+
+body
+{
+    margin: 0;
+    background-color:#0276FD;
+    background-image: linear-gradient(to right,#0276FD ,#7AA9DD);
+}
+.hd
+{
+
+text-align: center;
+padding-top: 2%;
+padding-bottom: 15%;
+font-size: 270%;
+
+}
+.tb
+{
+    display: table;
+    width: 100%;
+}
+
+.td
+{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+input, button
+{
+    color: #fff;
+    font-family: Nunito;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+#cover
+{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: 550px;
+    padding: 35px;
+    margin: -83px auto 0 auto;
+    background-color:   #ff7575;        
+    border-radius: 20px;
+    box-shadow: 0 10px 40px #ff7c7c, 0 0 0 20px #ffffffeb;
+    transform: scale(0.6);
+}
+
+form
+{
+    height: 96px;
+}
+
+input[type="text"]
+{
+    width: 100%;
+    height: 96px;
+    font-size: 60px;
+    line-height: 1;
+}
+
+input[type="text"]::placeholder
+{
+    color: #e16868;
+}
+
+#s-cover
+{
+    width: 1px;
+    padding-left: 35px;
+}
+
+button
+{
+    position: relative;
+    display: block;
+    width: 84px;
+    height: 96px;
+    cursor: pointer;
+}
+
+#s-circle
+{
+    position: relative;
+    top: -8px;
+    left: 0;
+    width: 43px;
+    height: 43px;
+    margin-top: 0;
+    border-width: 15px;
+    border: 15px solid #fff;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: 0.5s ease all;
+}
+
+button span
+{
+    position: absolute;
+    top: 68px;
+    left: 43px;
+    display: block;
+    width: 45px;
+    height: 15px;
+    background-color: transparent;
+    border-radius: 10px;
+    transform: rotateZ(52deg);
+    transition: 0.5s ease all;
+}
+
+button span:before, button span:after
+{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 45px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    transform: rotateZ(0);
+    transition: 0.5s ease all;
+}
+
+#s-cover:hover #s-circle
+{
+    top: -1px;
+    width: 67px;
+    height: 15px;
+    border-width: 0;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+#s-cover:hover span
+{
+    top: 50%;
+    left: 56px;
+    width: 25px;
+    margin-top: -9px;
+    transform: rotateZ(0);
+}
+
+#s-cover:hover button span:before
+{
+    bottom: 11px;
+    transform: rotateZ(52deg);
+}
+
+#s-cover:hover button span:after
+{
+    bottom: -11px;
+    transform: rotateZ(-52deg);
+}
+#s-cover:hover button span:before, #s-cover:hover button span:after
+{
+    right: -6px;
+    width: 40px;
+    background-color: #fff;
+}
+table{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    
+  }
+  td, th {
+    border: 1px solid #696969;
+    text-align: left;
+    padding: 8px;
+  }
+  
+        </style>
+    </head>
+    <body>
+    </div>
+        <div class="hd">
+        <h1 >Covid19 cases</h1></div>
+        <div id="cover">
+            <form method="get" action="">
+              <div class="tb">
+                <div class="td"><input type="text" placeholder="State Name" id="txt"></div>
+                <div class="td" id="s-cover">
+                  <button type="submit" id="btn">
+                    <div id="s-circle"></div>
+                    <span></span>
+                  </button>
+                </div>
+            </div>
+            </form>
+          </div>
+        </div>
+          <div class="table_div">
+            <table>
+                <tr>
+                  <th>State</th>
+                  <th>confirmed</th>
+                  <th>Active</th>
+                  <th>deceased</th>
+                  <th>cured</th>
+
+                </tr>
+                <tr>
+                  <td id="state">_____</td>
+                  <td id="conf">0</td>
+                  <td id="act">0</td>
+                  <td id="ded">0</td>
+                  <td id="rec">0</td>
+                </tr>
+            </table>
+          </div>
+          <script type="text/javascript">
+function process_data(data){
+    console.log(typeof  data.districtData);
+    let data_obj=data.districtData;
+    var total=0,act=0,ded=0,state,cured=0,prop;
+    for(let prop in data_obj){
+      //  act=data.districtData.prop;
+       // console.log([prop]);
+       act=act+data.districtData[prop].active;
+       cured=cured+data.districtData[prop].recovered;
+       total=total+data.districtData[prop].confirmed;
+       ded=ded+data.districtData[prop].deceased;
+      //  console.log(data.districtData[prop].active);
+    }
+    document.getElementById("conf").innerHTML=total;
+    document.getElementById("act").innerHTML=act;
+    document.getElementById("ded").innerHTML=ded;
+    document.getElementById("rec").innerHTML=cured;
+    console.log("Total confirmed = "+total);
+    console.log("Total active = "+act);
+    console.log("Total cured = "+cured);
+    console.log("Total died = "+ded);
+   // console.log("active ="+active);
+
+}
+
+
+function get_data(state){
+    fetch('http://localhost:3000/state?state='+state)
+  .then((response) =>{response.json().then((data)=>{
+      if(data.error){
+          console.log("error");
+      }else{
+          console.log("sdvdvd");
+        //  console.log(data);
+        document.getElementById("state").innerHTML=state;
+          process_data(data);
+      }
+  });
+});
+}
+
+
+/*function capital(str){
+    console.log(str);
+    str = str.split(" ");
+
+    for (var i = 0, x = str.length; i < x; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    }
+
+    str.join(" ");
+    console.log(str);
+}*/
+
+function solve(){
+    event.preventDefault();
+   // capital(document.getElementById("txt").value)
+   get_data(document.getElementById("txt").value);
+    console.log("solve function");
+}
+document.getElementById("btn").addEventListener("click", solve);
+
+          </script>
+    
+       </body>
+</html>
